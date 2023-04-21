@@ -20,6 +20,6 @@ class Solution:
         res = 0
         for r in range(ROWS):
             for c in range(COLS):
-                if not grid[r][c] and (r,c) not in visit:
+                if grid[r][c] != 1 and (r,c) not in visit:
                     res += dfs(r,c)
         return res
