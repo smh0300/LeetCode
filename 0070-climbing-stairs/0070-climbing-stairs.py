@@ -5,7 +5,6 @@ class Solution:
             return 1
         
         ans=[0] * n
-        print(n)
         ans[0]=1
         ans[1]=1
 
