@@ -1,8 +1,7 @@
 from collections import deque
 
 class RecentCounter:
-
-    queue = deque()
+    
     def __init__(self):
         self.my_deque = deque()
 
