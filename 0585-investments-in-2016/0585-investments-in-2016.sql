@@ -1,18 +1,18 @@
 # Write your MySQL query statement below
-WITH sub1 AS (
-    SELECT tiv_2015
-    FROM Insurance
-    GROUP BY 1
-    HAVING count(*) >= 2
+WITH CTE AS 
+(
+  SELECT LAT,LON
+   FROM INSURANCE
+   GROUP BY 1,2
+   HAVING COUNT(*) > 1
 ),
-sub2 AS (
-    SELECT DISTINCT lat, lon
-    FROM Insurance
-    GROUP BY 1,2
-    HAVING count(*) = 1
+CTE2 AS (
+    SELECT TIV_2015 AS TIV
+    FROM INSURANCE
+    GROUP BY 1
+    HAVING COUNT(*) > 1
 )
-
-SELECT round(sum(tiv_2016),2) as tiv_2016
-FROM Insurance
-WHERE tiv_2015 IN (SELECT * FROM sub1) AND
-    (lat, lon) IN (SELECT * FROM sub2)
+SELECT ROUND(SUM(tiv_2016),2) AS tiv_2016   
+    FROM INSURANCE I LEFT OUTER JOIN CTE ON (I.LAT = CTE.LAT AND I.LON = CTE.LON)
+    LEFT OUTER JOIN CTE2 ON I.TIV_2015 = TIV
+    WHERE CTE.LAT IS NULL AND CTE.LON IS NULL AND TIV IS NOT NULL;
