@@ -7,10 +7,9 @@ class Solution:
             for y in range(len(isConnected[0])):
                 if isConnected[x][y] == 1:
                     ls[x].append(y)
-        print(ls)
-             
+                    
         count = 0
-        visit = [0 for _ in range(len(isConnected))]     
+        visit = [0] * len(isConnected)    
         while 0 in visit:
                         
             next_explore = visit.index(0)
