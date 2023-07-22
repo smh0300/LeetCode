@@ -1,26 +1,30 @@
 class Solution:
     def nearestExit(self, maze: List[List[str]], entrance: List[int]) -> int:
-        m = len(maze)
-        n = len(maze[0])
-        dirs = [0, 1, 0, -1, 0]
-        ans = 0
-        q = collections.deque([(entrance[0], entrance[1])])
-        seen = {(entrance[0], entrance[1])}
+        h, w = len(maze), len(maze[0])
 
-        while q:
-          ans += 1
-          for _ in range(len(q)):
-            i, j = q.popleft()
-            for k in range(4):
-              x = i + dirs[k]
-              y = j + dirs[k + 1]
-              if x < 0 or x == m or y < 0 or y == n:
-                continue
-              if (x, y) in seen or maze[x][y] == '+':
-                continue
-              if x == 0 or x == m - 1 or y == 0 or y == n - 1:
-                return ans
-              q.append((x, y))
-              seen.add((x, y))
+        from collections import deque
+        answer = []
+        queue = deque([[entrance[0], entrance[1], 0]])
+        dir = [(-1,0),(1,0),(0,-1),(0,1)]
+        seen = {(entrance[0],entrance[1])}
 
+        while queue:
+
+            for _ in range(len(queue)):
+                height, width, step = queue.popleft()
+
+                for x,y in dir:
+                    next_height = height + x
+                    next_width = width + y
+                    
+                    if next_height == -1 or next_height == h or next_width == -1 or next_width == w:
+                        if step != 0:
+                            return step
+                        continue
+                    if maze[next_height][next_width] == "+":
+                        continue
+                    if (next_height, next_width) not in seen:
+                        queue.append([next_height, next_width, step + 1])
+                        seen.add((next_height, next_width))
+                        
         return -1
