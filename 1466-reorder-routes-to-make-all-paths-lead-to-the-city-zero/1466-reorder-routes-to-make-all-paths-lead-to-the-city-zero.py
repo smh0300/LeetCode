@@ -1,23 +1,22 @@
 class Solution:
     def minReorder(self, n: int, connections: List[List[int]]) -> int:
-        adj_list = defaultdict(set)
+        from collections import defaultdict, deque
+        node_dict = defaultdict(set)
         connections = set(((u,v) for u,v in connections))
         for u,v in connections:
-            adj_list[u].add(v)
-            adj_list[v].add(u)
-        
-        queue = deque([0])
-        visited = set([0])
-        
-        change_edges = 0
-        while queue:
-            node = queue.popleft()
-            
-            for nei in adj_list[node]:
-                if nei not in visited:
-                    if (node, nei) in connections:
-                        change_edges += 1
-                    queue.append(nei)
-                    visited.add(nei)
-        
-        return change_edges
+            node_dict[u].add(v)
+            node_dict[v].add(u)
+
+        visit = [0] * n
+        nodes = deque([0])
+        count = 0 
+        while nodes:
+            cur_node = nodes.popleft()
+            visit[cur_node] = 1
+            for x in node_dict[cur_node]:
+                if visit[x] == 0:
+                    if (cur_node, x) in connections:
+                        count += 1 
+                    nodes.append(x)
+                    
+        return count
