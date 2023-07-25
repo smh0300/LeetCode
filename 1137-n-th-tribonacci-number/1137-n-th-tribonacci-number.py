@@ -1,19 +1,16 @@
 class Solution:
     def tribonacci(self, n: int) -> int:
+        from collections import deque
+        fibo = deque([0,1,1])
         
-        if n ==0:
-            return 0
-        elif n== 1:
-            return 1
-        elif n== 2:
-            return 1
+        if n<3:
+            return fibo[n]
         
-        answer = [0]*(n+1)
-        answer[0] = 0
-        answer[1] = 1
-        answer[2] = 1
-
-        for x in range(3,n+1):
-            answer[x] = answer[x-3] + answer[x-2] + answer[x-1]
-        
-        return answer[-1]
+        for x in range(3,n):
+            print(fibo)
+            cur_sum = sum(fibo)
+            fibo.popleft()
+            fibo.append(cur_sum)
+        return sum(fibo)
+            
+            
